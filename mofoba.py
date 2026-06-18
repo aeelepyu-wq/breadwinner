@@ -16,33 +16,37 @@ def calculate_total_price(items):
         if item in store_items:
             total_price += store_items[item]
         else:
-            print(f"Item '{item}' not found in the store.")
+            print(f"Item '{item}' not found in the store. Find something else to buy!")
     return total_price
 
 money = 100.00
 
 while True:
     print(f"good morning, human! you have ${money:.2f} in your wallet.")
-    choice = input("work or bakery? (or 'quit' to exit) ")
+    choice = input("work or bakery? (or 'quit' or 'exit' to exit) ")
 
     if choice.lower() == "bakery":
-        items = [items.strip() for item in input("which pastry will we buy today?").split(",")]
-        total_price = calculate_total_price(items)
+        print("You chose to go to the bakery. Enjoy your shopping!\n")
         time.sleep(0.5)
-        jadibeliga = input("are you sure you want to purchase these items?")
-        if jadibeliga.lower() == "yes" or jadibeliga.lower() == "Yes":
+        print("here is our menu! \n \n chocoberry ice cream: $38.00 \n blueberry chocolate pancakes: $17.00 \n sesame kaiser bun: $17.00 \n pain au chocolat: $31.00 \n milk bread loaf: $25.00 \n brown sourdough bread: $7.00 \n")
+        time.sleep(1)
+        items = [item.strip() for item in input("which pastry will we buy today?").split(",")]
+        total_price = calculate_total_price(items)
+        if total_price == 0:
+            print("no items selected to purchase.")
+            continue
+        time.sleep(0.5)
+        jadibeliga = input("are you sure you want to purchase these items? (yes/no) ")
+        if jadibeliga.lower() == "yes":
             if money < total_price:
                 print("you don't have enough money to proceed with the transaction!")
-            elif money >= total_price:
-                print(f"transaction successful! You now have ${final_money:.2f}")
-                final_money = money - total_price
-            elif total_price == 0:
-                print("no items selected to purchase.")
-        if jadibeliga.lower() == "no" or jadibeliga.lower() == "No":
-            print("purchase cancelled")
-            break
-        time.sleep(0.5)
-        print(f"total price: {total_price}")
+            else:
+                money = money - total_price
+                print(f"✓ transaction successful! You now have ${money:.2f}\n")
+        elif jadibeliga.lower() == "no":
+            print("purchase cancelled\n")
+        else:
+            print("please answer 'yes' or 'no'\n")
 
     elif choice.lower() == "work":
         print("You chose to work. Have a productive day!\n")
@@ -57,7 +61,7 @@ while True:
             while True:
                 a = random.randint(1, 20)
                 b = random.randint(1, 20)
-                answer = input(f"What is {a} + {b}? (type 'quit' to stop) ")
+                answer = input(f"What is {a} + {b}? (type 'quit' or 'exit' to stop) ")
                 while seconds > 0 and not answer:
                     print(f"Time remaining: {seconds} second{'s' if seconds != 1 else ''}...")
                     time.sleep(1)
@@ -77,13 +81,14 @@ while True:
                     else:
                         print("Wrong answer. Try the next one.\n")
                 except ValueError:
-                    print("Please enter a number or 'quit'.\n")
+                    print("Please enter a number or 'quit' or 'exit'.\n")
         except KeyboardInterrupt:
             print("\nStopped working.")
+        print(f"\n✓ work session complete! Your balance is now ${money:.2f}\n")
 
     elif choice.lower() == 'quit':
         print('Goodbye. Go to sleep!')
         break
 
     else:
-        print("Invalid choice. Please enter 'work', 'bakery', or 'quit'.")
+        print("Invalid choice. Please enter 'work', 'bakery', 'quit', or 'exit'.")
